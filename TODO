@@ -85,8 +85,6 @@ Swift
 T-SQL
 Tcl
 Turing
-TypeScript
-Typescript
 UPL
 Unlambda
 Verilog
@@ -117,5 +115,6 @@ zzDONE - Racket
 zzDONE - R
 zzDONE - Ruby
 zzDONE - Rust
+zzDONE - Typescript
 zzDONE - Whitespace
 zzDONE - Zsh
