@@ -12,7 +12,12 @@ PUBLISHED_SUBDIRS = $(notdir ${PUBLISHED_CONTAINERS})
 # subdirectories.
 .PHONY: build clean upstream ${DIR_NAME} ${PARENT_DIR} $(PUBLISHED_SUBDIRS) leaf-target base
 
-DOCKER_BUILD = @docker build . --tag ${TAG_PATH_ROOT}/${DIR_NAME}:local
+DOCKER_BUILD_ARGS :=
+ifdef IS_X86
+	DOCKER_BUILD_ARGS := ${DOCKER_BUILD_ARGS} --platform=linux/amd64
+endif
+
+DOCKER_BUILD = docker build $(DOCKER_BUILD_ARGS) . --tag ${TAG_PATH_ROOT}/${DIR_NAME}:local
 DOCKER_RUN = @docker run --rm ${TAG_PATH_ROOT}/${DIR_NAME}:local
 DOCKER_RUN_INTERACTIVE = @docker run --rm -it --entrypoint="" ${TAG_PATH_ROOT}/${DIR_NAME}:local zsh
 
