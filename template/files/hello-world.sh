@@ -6,5 +6,6 @@
 # Otherwise, the default behavior is to run the first file in the
 # directory that matches the pattern `hello-world.*``.
 
-g++ -o hello hello-world.cpp
-./hello
+# Build it
+# Run it
+

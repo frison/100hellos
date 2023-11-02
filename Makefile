@@ -16,7 +16,8 @@ LANG_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" 
 IMAGE_PREFIX = ${DIR_NAME}
 BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
-NEW_COMMAND = @cp -r template template\ -\ $(shell date +%Y-%m-%d)
+NEW_FOLDER := template\ -\ $(shell date +%Y-%m-%d)
+NEW_COMMAND = @cp -r template $(NEW_FOLDER)
 ADDITIONAL_OPTIONS :=
 
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
@@ -29,18 +30,18 @@ endif
 
 ifdef INTERACTIVE
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_INTERACTIVE=1
-endif
-
-ifdef I
+else ifdef I
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_INTERACTIVE=1
 endif
 
 ifdef RUN
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_RUN=1
+else ifdef R
+	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_RUN=1
 endif
 
-ifdef R
-	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_RUN=1
+ifdef LANG
+	NEW_FOLDER = ${LANG}
 endif
 
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after

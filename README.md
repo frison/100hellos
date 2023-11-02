@@ -22,6 +22,12 @@ If you want to jump straight to seeing a `Hello World!` you can use `make [lang]
 
 **Pro-tip: `I=1` is a shortcut for `INTERACTIVE=1`**
 
+# What about adding a new language?
+
+`make new LANG=[lang]`
+
+This will create a new directory, Dockerfile, and outline for your language. You can then tweak and explore it with the `make [lang]` commands above.
+
 # What about for the base containers?
 
 You can do the above!

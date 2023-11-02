@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 # escape=\
+#FROM 100hellos/100-java11:local
 FROM 100hellos/000-base:local
 
 ######### NUKE FROM ME
@@ -8,6 +9,9 @@ FROM 100hellos/000-base:local
 RUN sudo \
   apk add --no-cache \
     bash zip
+
+COPY --chown=human:human ./artifacts /artifacts
+RUN cd /artifacts && make install
 
 COPY --from=golang:1.21-alpine /usr/local/go/ /usr/local/go/
 
