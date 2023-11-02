@@ -93,7 +93,6 @@ Verilog
 Vimscript
 Viper
 WATFIV, WATFOR
-Whitespace
 X10
 XPL
 Yacc
@@ -118,4 +117,5 @@ zzDONE - Racket
 zzDONE - R
 zzDONE - Ruby
 zzDONE - Rust
+zzDONE - Whitespace
 zzDONE - Zsh
