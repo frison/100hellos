@@ -10,7 +10,6 @@ Assembly
 Awk
 Batch script <-- this would be interesting... like a windows batch script?
 Befunge
-C
 C#
 COBOL
 CSS
@@ -59,7 +58,6 @@ OCaml
 Oberon-2
 Objective-C
 Opa
-PHP
 PL/I
 Perl
 Php
@@ -114,6 +112,7 @@ zzDONE - Java
 zzDONE - Kotlin
 zzDONE - Nasm
 zzDONE - Node
+zzDONE - PHP
 zzDONE - Python
 zzDONE - Racket
 zzDONE - R
