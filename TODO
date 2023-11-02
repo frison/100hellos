@@ -10,7 +10,6 @@ Assembly
 Awk
 Batch script <-- this would be interesting... like a windows batch script?
 Befunge
-Brainfuck
 C
 C#
 COBOL
@@ -105,6 +104,7 @@ Zebra, ZPL
 Zig
 zyDONE - Red -- ELF 32-bit LSB executable, Intel 80386, version 1 (GNU/Linux), dynamically linked, interpreter /lib/ld-linux.so.2, stripped
 zzDONE - Bash
+zzDONE - Brainfuck
 zzDONE - C
 zzDONE - Clojure
 zzDONE - C++
