@@ -16,6 +16,7 @@ LANG_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" 
 IMAGE_PREFIX = ${DIR_NAME}
 BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
+NEW_COMMAND = @cp -r template template\ -\ $(shell date +%Y-%m-%d)
 ADDITIONAL_OPTIONS :=
 
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
@@ -44,7 +45,7 @@ endif
 
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after
 # subdirectories.
-.PHONY: build clean base $(BASE_SUBDIRS) $(LANG_SUBDIRS)
+.PHONY: build clean base new $(BASE_SUBDIRS) $(LANG_SUBDIRS)
 
 $(DIR_NAME): build
 build: $(BASE_SUBDIRS) $(LANG_SUBDIRS)
@@ -63,3 +64,6 @@ $(LANG_SUBDIRS): $(BASE_SUBDIRS)
 		IS_LANG_MAKE=1
 
 test: $(LANG_SUBDIRS)
+
+new:
+	$(NEW_COMMAND)
