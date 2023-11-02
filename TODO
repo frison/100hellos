@@ -32,8 +32,6 @@ Factor
 Forth
 Fortran
 Frink
-Go
-Golang
 Gosu
 Groovy
 HTML
@@ -61,7 +59,6 @@ Nim
 OCaml
 Oberon-2
 Objective-C
-Objective-c
 Opa
 PHP
 PL/I
@@ -75,11 +72,6 @@ Prolog
 Q
 Q#
 Qbasic
-R
-Racket
-Red
-Ruby
-Rust
 S
 SQL
 Sather
@@ -111,12 +103,18 @@ Yacc
 Yorick
 Zebra, ZPL
 Zig
+zyDONE - Red -- ELF 32-bit LSB executable, Intel 80386, version 1 (GNU/Linux), dynamically linked, interpreter /lib/ld-linux.so.2, stripped
 zzDONE - Bash
 zzDONE - C
 zzDONE - Clojure
 zzDONE - C++
+zzDONE - Golang
 zzDONE - Java
 zzDONE - Kotlin
 zzDONE - Node
 zzDONE - Python
+zzDONE - Racket
+zzDONE - R
+zzDONE - Ruby
+zzDONE - Rust
 zzDONE - Zsh
