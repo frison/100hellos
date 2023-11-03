@@ -42,7 +42,6 @@ JavaScript
 Julia
 K
 Korn Shell
-Lisp
 MATLAB
 MQL4
 MUMPS
@@ -102,6 +101,7 @@ zzDONE - Erlang
 zzDONE - Golang
 zzDONE - Java
 zzDONE - Kotlin
+zzDONE - Lisp
 zzDONE - Lua
 zzDONE - LOLCODE
 zzDONE - Nasm
