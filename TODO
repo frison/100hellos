@@ -54,7 +54,6 @@ Oberon-2
 Objective-C
 Opa
 PL/I
-Perl
 PicoLisp
 Pike
 PostScript
@@ -106,6 +105,7 @@ zzDONE - Lua
 zzDONE - LOLCODE
 zzDONE - Nasm
 zzDONE - Node
+zzDONE - Perl
 zzDONE - PHP
 zzDONE - Prolog
 zzDONE - Python
