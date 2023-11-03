@@ -83,7 +83,6 @@ T-SQL
 Tcl
 Turing
 UPL
-Unlambda
 Verilog
 Vimscript
 Viper
@@ -115,5 +114,6 @@ zzDONE - Ruby
 zzDONE - Rust
 zzDONE - sed
 zzDONE - Typescript
+zzDONE - Unlambda
 zzDONE - Whitespace
 zzDONE - Zsh

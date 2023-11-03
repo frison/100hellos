@@ -1,7 +1,7 @@
 PREFIX ?= /usr/local
-SRC = lang.c
+SRC = unl.c
 CFLAGS = -std=c99 -Wall -pedantic
-BIN = lang
+BIN = unl
 
 .PHONY: clean uninstall
 
