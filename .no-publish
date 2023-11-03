@@ -1,0 +1,20 @@
+# This repository publishes each of the directories as docker images
+# and you don't need to do anything special to make that happen.
+# But to accomplish that, we need to maintain a list of directories
+# that we **do not** want to publish. This file is that list.
+.
+.git
+.github
+000-base
+100-java11
+template
+
+# I think there is a problem with publishing single
+# character images
+c
+r
+
+# emojicode is a straight up mess, with a high risk of it not
+# working due to the approach taken to get llvm8 working on
+# alpine:3.18
+emojicode

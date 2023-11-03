@@ -1,0 +1,10 @@
+# Generated build artifacts
+
+# Used by Github Actions
+# Generated from embedded script in Github Actions
+lang-filters.yml
+
+# Used by Github Actions
+# Generated from Makefiles
+# Generated during Github Actions
+Dockerfile.composite

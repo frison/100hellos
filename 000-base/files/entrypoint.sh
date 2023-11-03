@@ -1,4 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
+
+# We want this entrypoint code to run in the same
+# shell as the user, so we need to source the
+# user's .bashrc or .zshrc file as they are
+# not sourced for the entrypoint.
+#
+# Note this is required for kotlin to run with the
+# entrypoint because of how it configures the PATH
+# in the .zshrc file
+[[ -f $HOME/.zshrc ]] && source $HOME/.zshrc
 
 cd /hello-world
 

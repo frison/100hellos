@@ -1,7 +1,7 @@
 ##
 # Usage:
 # `make [lang]`      - Will build an image named `100hellos/[lang]:local`.
-#                      This image has a some hello world code in it, and 
+#                      This image has a some hello world code in it, and
 #                      enough to build and run the code.
 #
 # You can also use parameters:
@@ -54,7 +54,7 @@ endif
 
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after
 # subdirectories.
-.PHONY: build clean base new $(BASE_SUBDIRS) $(LANG_SUBDIRS)
+.PHONY: build clean base new clean-composite-dockerfile composite-dockerfile $(BASE_SUBDIRS) $(LANG_SUBDIRS)
 
 $(DIR_NAME): build
 build: $(BASE_SUBDIRS) $(LANG_SUBDIRS)
@@ -66,13 +66,26 @@ base: $(BASE_SUBDIRS)
 
 $(BASE_SUBDIRS):
 	@$(MAKE) -C $@ ${MAKECMDGOALS} -f ${CURDIR}/Makefile.language-container.mk $(ADDITIONAL_OPTIONS) \
-		IS_BASE_MAKE=1
+		IS_BASE_MAKE=1 \
+		COMPOSITE_DOCKERFILE_DIR=${CURDIR} \
+		COMPOSITE_DOCKERFILE=Dockerfile.composite
+
 
 $(LANG_SUBDIRS): $(BASE_SUBDIRS)
 	@$(MAKE) -C $@ ${MAKECMDGOALS} -f ${CURDIR}/Makefile.language-container.mk $(ADDITIONAL_OPTIONS) \
-		IS_LANG_MAKE=1
+		IS_LANG_MAKE=1 \
+		COMPOSITE_DOCKERFILE_DIR=${CURDIR} \
+		COMPOSITE_DOCKERFILE=Dockerfile.composite
 
 test: $(LANG_SUBDIRS)
 
 new:
 	$(NEW_COMMAND)
+
+clean-composite-dockerfile:
+	rm -f Dockerfile.composite
+
+# We only support composite-dockerfiles to simplify multi-arch builds
+# because buildx can't publish manifests to local registries which means
+# we can't use the `FROM dev-base:local` statements.
+composite-dockerfile: clean-composite-dockerfile $(LANG_SUBDIRS)

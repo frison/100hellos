@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-# escape=\
 FROM 100hellos/000-base:local
 
 RUN sudo \

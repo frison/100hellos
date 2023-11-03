@@ -1,0 +1,73 @@
+name: 🛠️🚀 Release Languages (🧬 commit)
+
+# (Name of the workflow)-(fully formed ref (ie. refs/heads/main,refs/tags/v10,refs/pull/<pr_number>/merge))
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  what_to_build:
+    name: 🔎 What Images Need to be Built?
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🧠 Generate Language Filters
+        id: generate-filters
+        shell: bash
+        run: |
+          for lang in $(find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish)
+          do
+            echo "$lang:"
+            echo "  - '.github/**'"
+            echo "  - '000-base/**'"
+            echo "  - '100-java/**'"
+            echo "  - '$lang/**'"
+            echo ""
+          done > ${GITHUB_WORKSPACE:-.}/lang-filters.yml
+
+      # https://github.com/dorny/paths-filter
+      -
+        name: 📂 What's Changed?
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: lang-filters.yml
+
+    outputs:
+      languages: ${{ steps.changes.outputs.changes }}
+
+  dockerhub:
+    needs: [what_to_build]
+    name:  🐳 ${{ matrix.language }} (linux/amd64)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        language: ${{ fromJSON(needs.what_to_build.outputs.languages) }}
+
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🎬 Publish Image
+        uses: ./.github/actions/publish-image
+        continue-on-error: true
+        with:
+          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+          platforms: linux/amd64
+          language: ${{ matrix.language }}

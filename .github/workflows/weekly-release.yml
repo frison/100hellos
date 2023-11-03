@@ -1,0 +1,56 @@
+name: 🛠️🚀 Release Languages (🗓 Weekly)
+
+# (Name of the workflow)-(fully formed ref (ie. refs/heads/main,refs/tags/v10,refs/pull/<pr_number>/merge))
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  schedule:
+    # Friday at midnight UTC
+    - cron: "0 0 * * 5"
+  workflow_dispatch:
+
+jobs:
+  what_to_build:
+    name: 🔎 What Images Need to be Built?
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🧠 Find Languages
+        id: find-languages
+        shell: bash
+        run: |
+          json_array=$(find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish | jq -Rcs 'split("\n")[:-1]')
+          echo "languages=$json_array" >> $GITHUB_OUTPUT
+
+    outputs:
+      languages: ${{ steps.find-languages.outputs.languages }}
+
+  dockerhub:
+    needs: [what_to_build]
+    name:  🐳 ${{ matrix.language }} (linux/amd64)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        language: ${{ fromJSON(needs.what_to_build.outputs.languages) }}
+
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🎬 Publish Image
+        uses: ./.github/actions/publish-image
+        continue-on-error: true
+        with:
+          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+          platforms: linux/amd64
+          language: ${{ matrix.language }}
