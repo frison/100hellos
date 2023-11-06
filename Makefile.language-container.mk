@@ -64,6 +64,7 @@ clean:
 # Transforms `FROM ([^/]*)` to `FROM (.*) AS $IMAGE_TO_BUILD`
 #   These are images that do not have a "/" in them, because they're not the target
 #   image we want to build or any local image.
+# Transforms 100hellos/... to o100hellos_... (multistage build names can't start with numbers).
 # Transforms `FROM [:image directory:]/[:tag directory:]:local (.*)` to `FROM [:image directory:]_[:tag directory:] (.*)`
 # Transforms `COPY ./(.*) (.*)` to `COPY ./${ESCAPED_PROJECT_RELATIVE_DIR}/(.*) (.*)`
 # Transforms `COPY --chown=(..) ./(.*) (.*)` to `COPY ./${ESCAPED_PROJECT_RELATIVE_DIR}/(.*) (.*)`

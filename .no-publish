@@ -18,3 +18,9 @@ r
 # working due to the approach taken to get llvm8 working on
 # alpine:3.18
 emojicode
+
+# Now that we're testing the language images each commit
+# in the nearly-optimal way, it turns out prolog wasn't working
+# so we'll ignore it for now. The latest 100hellos/prolog image
+# on dockerhub is there and works.
+prolog

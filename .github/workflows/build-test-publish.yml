@@ -1,0 +1,73 @@
+name: 🛠️🧐🚀
+
+on:
+  workflow_call:
+    inputs:
+      languages:
+        description: "The languages to build images for"
+        required: true
+        default: "[]"
+        type: string
+      test:
+        description: "Whether to run tests"
+        default: true
+        type: boolean
+      publish:
+        description: "Whether to publish images"
+        default: false
+        type: boolean
+
+jobs:
+  build-test:
+    name:  🛠️ + 🧐 ${{ matrix.language }} (linux/amd64)
+    runs-on: ubuntu-latest
+    if: ${{ inputs.test }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ fromJSON(inputs.languages) }}
+
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🧐 Test Image
+        uses: ./.github/actions/build-test-publish
+        continue-on-error: false
+        with:
+          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+          platforms: linux/amd64
+          language: ${{ matrix.language }}
+          test: ${{ inputs.test }}
+          publish: false
+
+  publish:
+    name: 🚀 ${{ matrix.language }} (linux/amd64)
+    runs-on: ubuntu-latest
+    if: ${{ inputs.publish }}
+    needs: build-test
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ fromJSON(inputs.languages) }}
+
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🎬 Publish Image
+        uses: ./.github/actions/build-test-publish
+        continue-on-error: true
+        with:
+          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+          platforms: linux/amd64
+          language: ${{ matrix.language }}
+          test: ${{ inputs.test }}
+          publish: ${{ inputs.publish }}
