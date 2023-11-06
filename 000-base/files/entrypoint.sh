@@ -10,6 +10,11 @@
 # in the .zshrc file
 [[ -f $HOME/.zshrc ]] && source $HOME/.zshrc
 
+# We want any errors that happen here to fail
+# hard so the entrypoint fails and the error code
+# bubbles up to docker run.
+set -eu -o pipefail
+
 cd /hello-world
 
 if [ -e hello-world.sh ]; then

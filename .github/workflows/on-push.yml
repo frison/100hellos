@@ -1,4 +1,4 @@
-name: 🛠️🚀 Release Languages (🧬 commit)
+name: 🖥 + 🖐 - On Push
 
 # (Name of the workflow)-(fully formed ref (ie. refs/heads/main,refs/tags/v10,refs/pull/<pr_number>/merge))
 concurrency:
@@ -7,16 +7,16 @@ concurrency:
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
 
 jobs:
-  what_to_build:
-    name: 🔎 What Images Need to be Built?
+  what-to-build:
+    name: 🔎 Build Surface
     runs-on: ubuntu-latest
+
     permissions:
+      # Required for dorny/paths-filter
       pull-requests: read
+
     steps:
       -
         name: 🛒 Checkout
@@ -48,26 +48,13 @@ jobs:
     outputs:
       languages: ${{ steps.changes.outputs.changes }}
 
-  dockerhub:
-    needs: [what_to_build]
-    name:  🐳 ${{ matrix.language }} (linux/amd64)
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        language: ${{ fromJSON(needs.what_to_build.outputs.languages) }}
+  build-test-publish:
+    name: 🧐 + 🚀
+    uses: ./.github/workflows/build-test-publish.yml
+    needs: what-to-build
+    secrets: inherit
+    with:
+      languages: ${{ needs.what-to-build.outputs.languages }}
+      test: true
+      publish: ${{ github.ref == 'refs/heads/main' }}
 
-    steps:
-      -
-        name: 🛒 Checkout
-        uses: actions/checkout@master
-
-      -
-        name: 🎬 Publish Image
-        uses: ./.github/actions/publish-image
-        continue-on-error: true
-        with:
-          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
-          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-          platforms: linux/amd64
-          language: ${{ matrix.language }}
