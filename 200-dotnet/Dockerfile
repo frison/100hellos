@@ -1,0 +1,5 @@
+FROM 100hellos/000-base:local
+
+RUN sudo \
+  apk add --no-cache \
+    dotnet7-sdk
