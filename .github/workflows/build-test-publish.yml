@@ -1,4 +1,4 @@
-name: 🛠️🧐🚀
+name: (called workflow) Build, Test, and Publish
 
 on:
   workflow_call:

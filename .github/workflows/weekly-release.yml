@@ -7,21 +7,24 @@ concurrency:
 
 on:
   schedule:
-    # Friday at midnight UTC
-    - cron: "0 0 * * 5"
+    # Friday at 00:37 UTC
+    # We avoid running directly on the hour because that is when
+    # many other workloads run and github advises against it running
+    # exactly on the hour.
+    - cron: "37 0 * * 5"
   workflow_dispatch:
 
 jobs:
   what-to-build:
-    name: 🔎 Build Surface
+    name: 🔎 - Find Build Surface
     runs-on: ubuntu-latest
     steps:
       -
-        name: 🛒 Checkout
+        name: 🛒 - Checkout
         uses: actions/checkout@master
 
       -
-        name: 🧠 Find Languages
+        name: 📂 - Find All Published Languages
         id: find-languages
         shell: bash
         run: |
@@ -32,7 +35,7 @@ jobs:
       languages: ${{ steps.find-languages.outputs.languages }}
 
   build-test-publish:
-    name: 🧐 + 🚀
+    name: 🚀 - Build, Test and Publish
     uses: ./.github/workflows/build-test-publish.yml
     needs: what-to-build
     secrets: inherit

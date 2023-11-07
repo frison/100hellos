@@ -10,7 +10,7 @@ on:
 
 jobs:
   what-to-build:
-    name: 🔎 Build Surface
+    name: 🔎 - Find Build Surface
     runs-on: ubuntu-latest
 
     permissions:
@@ -19,11 +19,11 @@ jobs:
 
     steps:
       -
-        name: 🛒 Checkout
+        name: 🛒 - Checkout
         uses: actions/checkout@master
 
       -
-        name: 🧠 Generate Language Filters
+        name: 🧠 - Generate Language Filters
         id: generate-filters
         shell: bash
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       # https://github.com/dorny/paths-filter
       -
-        name: 📂 What's Changed?
+        name: 📂 - Changed Languages?
         id: changes
         uses: dorny/paths-filter@v2
         with:
@@ -49,7 +49,7 @@ jobs:
       languages: ${{ steps.changes.outputs.changes }}
 
   build-test-publish:
-    name: 🧐 + 🚀
+    name: 🧐 - Build + Test (publish if main)
     uses: ./.github/workflows/build-test-publish.yml
     needs: what-to-build
     secrets: inherit
