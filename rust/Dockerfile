@@ -2,8 +2,9 @@
 # escape=\
 FROM 100hellos/000-base:local
 
-COPY --from=rust:alpine /usr/local/cargo /usr/local/cargo/
-ENV PATH /usr/local/cargo/bin:$PATH
-RUN rustup default stable
+RUN \
+  sudo \
+  apk add --no-cache \
+    rust
 
 COPY --chown=human:human ./files /hello-world
