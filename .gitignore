@@ -8,3 +8,6 @@ lang-filters.yml
 # Generated from Makefiles
 # Generated during Github Actions
 Dockerfile.composite
+
+# Dockerhub Repository Overview generated text
+**/README-Generated.md

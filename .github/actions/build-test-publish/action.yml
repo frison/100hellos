@@ -121,3 +121,22 @@ runs:
           type=gha,mode=max
           type=registry,ref=${{ inputs.dockerhub-username }}/${{ inputs.language }}:latest,mode=max
 
+    -
+      name: Determine if language has documentation to publish
+      id: has-docs
+      shell: bash
+      run: |
+        ./.github/bin/generate-overview-readme.sh ${{ inputs.language }}
+
+    -
+      name: 🖋 Docker Hub
+      uses: peter-evans/dockerhub-description@5862ccd54c82fd1a0e6c5533916f2c53ddc5d25f
+      # Check if the repo has a README.md for publication, and if so update the
+      # description on Docker Hub.
+      if: ${{ inputs.publish == 'true' }}
+      with:
+        username: ${{ inputs.dockerhub-username }}
+        password: ${{ inputs.dockerhub-token }}
+        repository: 100hellos/${{ inputs.language }}
+        short-description: "\"Hello World!\" Written in ${{ inputs.language }}"
+        readme-filepath: ./${{ inputs.language }}/README-Generated.md

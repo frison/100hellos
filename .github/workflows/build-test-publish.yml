@@ -19,7 +19,7 @@ on:
 
 jobs:
   build-test:
-    name:  🛠️ + 🧐 ${{ matrix.language }} (linux/amd64)
+    name:  ${{ matrix.language }} (linux/amd64)
     runs-on: ubuntu-latest
     if: ${{ inputs.test }}
 
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@master
 
       -
-        name: 🧐 Test Image
+        name: 🧪 Test
         uses: ./.github/actions/build-test-publish
         continue-on-error: false
         with:
@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@master
 
       -
-        name: 🎬 Publish Image
+        name: 🎬 Publish
         uses: ./.github/actions/build-test-publish
         continue-on-error: true
         with:

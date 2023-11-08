@@ -1,12 +1,12 @@
 ##
 # Usage:
-# `make [lang]`      - Will build an image named `100hellos/[lang]:local`.
-#                      This image has a some hello world code in it, and
-#                      enough to build and run the code.
+# `make [lang]` -- Build an image named `100hellos/[lang]:local` from the `[lang]` directory.
+#                  This image has everything you need to build and run hello-world programs in that language.
 #
-# You can also use parameters:
-# `make [lang] RUN=1` - Will build the image, and then (maybe build) and run the code.
-# `make [lang] INTERACTIVE=1` -- Try it, poke around!
+# Parameters:
+#   - `RUN=1` (or `R=1`)         -- Will build the image, and then (maybe build) and run the code.
+#   - `INTERACTIVE=1` (or `I=1`) -- Try it, poke around!
+#   - `MOUNT=1` (or `M=1`)       -- Mounts the `files` directory in the container. (caution: permissions issues likely)
 #
 # Note: It is assumed there are no dependencies between the non-base containers.
 
@@ -40,6 +40,14 @@ else ifdef R
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_RUN=1
 endif
 
+# Host folder mounting introduces all sorts of permission issues if you're not careful
+# so be prepared to chown/chmod the files in the host folder.
+ifdef MOUNT
+	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_MOUNT=1
+else ifdef M
+	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_MOUNT=1
+endif
+
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_BASE_TARGET=1
 endif
@@ -71,7 +79,7 @@ $(BASE_SUBDIRS):
 		COMPOSITE_DOCKERFILE=Dockerfile.composite
 
 
-$(LANG_SUBDIRS): $(BASE_SUBDIRS)
+$(LANG_SUBDIRS):
 	@$(MAKE) -C $@ ${MAKECMDGOALS} -f ${CURDIR}/Makefile.language-container.mk $(ADDITIONAL_OPTIONS) \
 		IS_LANG_MAKE=1 \
 		COMPOSITE_DOCKERFILE_DIR=${CURDIR} \
@@ -85,7 +93,6 @@ new:
 clean-composite-dockerfile:
 	rm -f Dockerfile.composite
 
-# We only support composite-dockerfiles to simplify multi-arch builds
-# because buildx can't publish manifests to local registries which means
-# we can't use the `FROM dev-base:local` statements.
-composite-dockerfile: clean-composite-dockerfile $(LANG_SUBDIRS)
+# This generates a Dockerfile that has every language and base container  in it (for all languages) in
+# a way for the multi-stage build to optimally build the images.
+composite-dockerfile: clean-composite-dockerfile $(BASE_SUBDIRS) $(LANG_SUBDIRS)
