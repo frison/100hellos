@@ -27,15 +27,7 @@ jobs:
         id: generate-filters
         shell: bash
         run: |
-          for lang in $(find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish)
-          do
-            echo "$lang:"
-            echo "  - '.github/**'"
-            echo "  - '000-base/**'"
-            echo "  - '100-java/**'"
-            echo "  - '$lang/**'"
-            echo ""
-          done > ${GITHUB_WORKSPACE:-.}/lang-filters.yml
+          ./.github/bin/generate-language-filters.sh > ${GITHUB_WORKSPACE:-.}/lang-filters.yml
 
       # https://github.com/dorny/paths-filter
       -
@@ -49,7 +41,7 @@ jobs:
       languages: ${{ steps.changes.outputs.changes }}
 
   build-test-publish:
-    name: 🧐 - Build + Test (publish if main)
+    name: 🧐
     uses: ./.github/workflows/build-test-publish.yml
     needs: what-to-build
     secrets: inherit
