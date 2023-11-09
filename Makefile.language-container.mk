@@ -23,9 +23,14 @@ ifdef IS_X86
 	DOCKER_BUILD_ARGS := ${DOCKER_BUILD_ARGS} --platform=linux/amd64
 endif
 
+DOCKER_RUN_ARGS := --rm
+ifdef IS_MOUNT
+	DOCKER_RUN_ARGS := ${DOCKER_RUN_ARGS} -v "${CURDIR}/files":/hello-world
+endif
+
 DOCKER_BUILD = docker build $(DOCKER_BUILD_ARGS) . --tag ${TAG_PATH_ROOT}/${DIR_NAME}:local
-DOCKER_RUN = @docker run --rm ${TAG_PATH_ROOT}/${DIR_NAME}:local
-DOCKER_RUN_INTERACTIVE = @docker run --rm -it --entrypoint="" ${TAG_PATH_ROOT}/${DIR_NAME}:local zsh
+DOCKER_RUN = @docker run ${DOCKER_RUN_ARGS} ${TAG_PATH_ROOT}/${DIR_NAME}:local
+DOCKER_RUN_INTERACTIVE = @docker run ${DOCKER_RUN_ARGS} -it --entrypoint="" ${TAG_PATH_ROOT}/${DIR_NAME}:local zsh
 DOCKER_CLEAN = @docker rmi --force ${TAG_PATH_ROOT}/${DIR_NAME}:local || true
 
 # Long story short, this allows:

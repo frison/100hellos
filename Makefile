@@ -38,6 +38,14 @@ else ifdef R
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_RUN=1
 endif
 
+# Host folder mounting introduces all sorts of permission issues if you're not careful
+# so be prepared to chown/chmod the files in the host folder.
+ifdef MOUNT
+	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_MOUNT=1
+else ifdef M
+	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_MOUNT=1
+endif
+
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_BASE_TARGET=1
 endif
