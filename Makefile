@@ -1,13 +1,11 @@
 ##
 # Usage:
-# `make [lang]`      - Will build an image named `100hellos/[lang]:local`.
-#                      This image has a some hello world code in it, and
-#                      enough to build and run the code.
+# `make [lang]` -- Build an image named `100hellos/[lang]:local` from the `[lang]` directory.
+#                  This image has everything you need to build and run hello-world programs in that language.
 #
-# You can also use parameters:
-# `make [lang] RUN=1` - Will build the image, and then (maybe build) and run the code.
-# `make [lang] INTERACTIVE=1` -- Try it, poke around!
-#
+# Parameters:
+#   - `RUN=1` (or `R=1`)         -- Will build the image, and then (maybe build) and run the code.
+#   - `INTERACTIVE=1` (or `I=1`) -- Try it, poke around!
 # Note: It is assumed there are no dependencies between the non-base containers.
 
 DIR_NAME := $(notdir ${CURDIR})
@@ -85,7 +83,6 @@ new:
 clean-composite-dockerfile:
 	rm -f Dockerfile.composite
 
-# We only support composite-dockerfiles to simplify multi-arch builds
-# because buildx can't publish manifests to local registries which means
-# we can't use the `FROM dev-base:local` statements.
+# This generates a Dockerfile that has every language and base container  in it (for all languages) in
+# a way for the multi-stage build to optimally build the images.
 composite-dockerfile: clean-composite-dockerfile $(LANG_SUBDIRS)

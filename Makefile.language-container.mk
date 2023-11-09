@@ -16,6 +16,8 @@ ESCAPED_PROJECT_RELATIVE_DIR := $(shell echo ${PROJECT_RELATIVE_DIR} | sed 's/\/
 # subdirectories.
 .PHONY: build clean composite-dockerfile ${DIR_NAME} ${PARENT_DIR} $(PUBLISHED_SUBDIRS) base
 
+# This only matters for building and running the containers on ARM64 machines,
+# that causes all sorts of problems with the nasm-x86_64 container.
 DOCKER_BUILD_ARGS :=
 ifdef IS_X86
 	DOCKER_BUILD_ARGS := ${DOCKER_BUILD_ARGS} --platform=linux/amd64
