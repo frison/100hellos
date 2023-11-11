@@ -93,4 +93,4 @@ clean-composite-dockerfile:
 
 # This generates a Dockerfile that has every language and base container  in it (for all languages) in
 # a way for the multi-stage build to optimally build the images.
-composite-dockerfile: clean-composite-dockerfile $(LANG_SUBDIRS)
+composite-dockerfile: clean-composite-dockerfile $(BASE_SUBDIRS) $(LANG_SUBDIRS)
