@@ -5,6 +5,7 @@
 .
 .git
 .github
+.utils
 000-base
 100-java11
 200-dotnet
