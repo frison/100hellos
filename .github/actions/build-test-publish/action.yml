@@ -139,8 +139,8 @@ runs:
       # description on Docker Hub.
       if: ${{ steps.has-docs.outputs.has_docs == 'true' }}
       with:
-        username: ${{ vars.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{ inputs.dockerhub-username }}
+        password: ${{ inputs.dockerhub-token }}
         repository: 100hellos/${{ inputs.language }}
         short-description: "Hello World! ${{ inputs.language }} image"
         readme-filepath: ./${{ inputs.language }}/README.md
