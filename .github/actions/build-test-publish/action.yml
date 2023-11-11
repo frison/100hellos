@@ -121,3 +121,26 @@ runs:
           type=gha,mode=max
           type=registry,ref=${{ inputs.dockerhub-username }}/${{ inputs.language }}:latest,mode=max
 
+    -
+      name: Determine if language has documentation to publish
+      id: has-docs
+      shell: bash
+      run: |
+        if [[ -f "./${{ inputs.language }}/README.md" ]]; then
+          echo "has_docs=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_docs=false" >> $GITHUB_OUTPUT
+        fi
+
+    -
+      name: 🖋 Docker Hub
+      uses: peter-evans/dockerhub-description@5862ccd54c82fd1a0e6c5533916f2c53ddc5d25f
+      # Check if the repo has a README.md for publication, and if so update the
+      # description on Docker Hub.
+      if: ${{ steps.has-docs.outputs.has_docs == 'true' }}
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: 100hellos/${{ inputs.language }}
+        short-description: "Hello World! ${{ inputs.language }} image"
+        readme-filepath: ./${{ inputs.language }}/README.md

@@ -11,3 +11,7 @@ find_dependencies() {
     find_dependencies "$parent" $((depth + 1))
   done
 }
+
+published_languages() {
+  find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish
+}
