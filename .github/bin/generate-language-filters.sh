@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 
+find_dependencies() {
+  local lang="$1"
+  local dockerfile="$lang/Dockerfile"
+  if [ -e "$dockerfile" ]; then
+    grep -qE "100hellos/$lang:local" "$dockerfile" | sed 's|100hellos/||'
+  fi
+}
+
 for lang in $(find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish)
 do
   echo "$lang:"
