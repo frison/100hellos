@@ -126,21 +126,39 @@ runs:
       id: has-docs
       shell: bash
       run: |
-        if [[ -f "./${{ inputs.language }}/README.md" ]]; then
-          echo "has_docs=true" >> $GITHUB_OUTPUT
-        else
-          echo "has_docs=false" >> $GITHUB_OUTPUT
+        # Multiline string outputted to a file
+        # https://stackoverflow.com/a/23930212/9023855
+        cat << EOF
+        # Hello World! From ${{ inputs.language }}.
+
+        This image is built from the **[100hellos/${{ inputs.language }}](https://github.com/frison/100hellos/tree/main/${{ inputs.language }})** directory.
+
+        You can give it a whirl by running:
+        ```
+        # Build, run, or interpret the language's version of "Hello World!" and output it
+        docker run --rm 100hellos/${{ inputs.language }}:latest
+
+        # You can enter the container and poke around, a good place to start?
+        # `cat /entrypoint.sh`
+        docker run --rm --entrypoint="" -it 100hellos/${{ inputs.language }} zsh
+        ```
+        EOF > ./${{ inputs.language }}/README-Generated.md
+
+        # Check if the repo has a README.md for publication, and if so append it to the generated text
+        if [ -f "./${{ inputs.language }}/README.md" ]; then
+          cat ./${{ inputs.language }}/README.md >> ./${{ inputs.language }}/README-Generated.md
         fi
+
+
 
     -
       name: 🖋 Docker Hub
       uses: peter-evans/dockerhub-description@5862ccd54c82fd1a0e6c5533916f2c53ddc5d25f
       # Check if the repo has a README.md for publication, and if so update the
       # description on Docker Hub.
-      if: ${{ steps.has-docs.outputs.has_docs == 'true' }}
       with:
         username: ${{ inputs.dockerhub-username }}
         password: ${{ inputs.dockerhub-token }}
         repository: 100hellos/${{ inputs.language }}
         short-description: "Hello World! ${{ inputs.language }} image"
-        readme-filepath: ./${{ inputs.language }}/README.md
+        readme-filepath: ./${{ inputs.language }}/README-Generated.md

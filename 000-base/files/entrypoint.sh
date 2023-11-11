@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# Want to rebuild all images? Change this number: 000
+#
 # We want this entrypoint code to run in the same
 # shell as the user, so we need to source the
 # user's .bashrc or .zshrc file as they are
