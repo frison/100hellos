@@ -12,7 +12,7 @@ This demonstrates "Hello World" in 100 languages (one day...) and their correspo
 ```
 git clone git@github.com:frison/100hellos.git
 cd 100hellos
-make prolog R=1
+make perl R=1
 ```
 
 # Building and/or running a Hello World!
@@ -28,7 +28,7 @@ make prolog R=1
 
 ## Option 1: Change the files, and rebuild
 
-- Modify the files in the language directory (e.g. `prolog/files`)
+- Modify the files in the language directory (e.g. `perl/files`)
 - `make [lang] R=1`
 
 ## Option 2: Run the container and modify it
