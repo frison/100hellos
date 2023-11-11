@@ -41,7 +41,7 @@ jobs:
       languages: ${{ steps.changes.outputs.changes }}
 
   build-test-publish:
-    name: 🧐
+    name: 🧪 - Build and Test
     uses: ./.github/workflows/build-test-publish.yml
     needs: what-to-build
     secrets: inherit
