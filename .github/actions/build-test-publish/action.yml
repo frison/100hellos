@@ -129,7 +129,7 @@ runs:
         # Multiline string outputted to a file
         # https://stackoverflow.com/a/23930212/9023855
         run: |
-          cat > ./${{ inputs.language }}/README-Generated.md << EOF
+          cat > ./${{ inputs.language }}/README-Generated.md << 'EOF'
           # Hello World! From ${{ inputs.language }}.
 
           This image is built from the **[100hellos/${{ inputs.language }}](https://github.com/frison/100hellos/tree/main/${{ inputs.language }})** directory.
@@ -146,10 +146,10 @@ runs:
           \n\n
           EOF
 
-        # Check if the repo has a README.md for publication, and if so append it to the generated text
-        if [ -f "./${{ inputs.language }}/README.md" ]; then
-          cat ./${{ inputs.language }}/README.md >> ./${{ inputs.language }}/README-Generated.md
-        fi
+          # Check if the repo has a README.md for publication, and if so append it to the generated text
+          if [ -f "./${{ inputs.language }}/README.md" ]; then
+            cat ./${{ inputs.language }}/README.md >> ./${{ inputs.language }}/README-Generated.md
+          fi
 
     -
       name: 🖋 Docker Hub
