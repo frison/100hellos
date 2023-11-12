@@ -9,7 +9,7 @@ language=$1
 # and generate the start of the README.md
 cat "$SCRIPT_DIR/overview-template.md" | sed "s|\${lang}|$language|g" > "$language/README-Generated.md"
 
+# Brainfuck is an example that has a README.md
 if [[ -f "$language/README.md" ]]; then
   cat "$language/README.md" >> "$language/README-Generated.md"
 fi
-
