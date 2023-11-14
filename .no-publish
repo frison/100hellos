@@ -6,15 +6,20 @@
 .git
 .github
 .utils
+.template
 000-base
 100-java11
 200-dotnet
-template
 
-# I think there is a problem with publishing single
-# character images
-c
-r
+# A repository's name must:
+#  - be unique within the account
+#  - be 2-255 characters
+#  - only lowercase, -, and _
+#
+# Consequently single character language names are not possible. To get around this,
+# we suffix single character languages with an underscore.
+# c
+# r
 
 # emojicode is a straight up mess, with a high risk of it not
 # working due to the approach taken to get llvm8 working on

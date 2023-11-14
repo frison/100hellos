@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://hub.docker.com/r/100hellos" alt="DockerHub!">
-    <img src="https://img.shields.io/badge/Hello%20World!-65_to_go-red"
+    <img src="https://img.shields.io/badge/Hello%20World!-66_to_go-red"
         height="130"></a>
 </p>
 
@@ -71,7 +71,7 @@ This will build and run the language container locally, and open an interactive 
 
 # What about adding a new language?
 
-`make new LANG=[lang]`
+`make new HELLO=[lang]`
 
 This will create a new directory, Dockerfile, and outline for your language. You can then tweak and explore it with the `make [lang]` commands above. Check out the [DEVELOPERS.md](./DEVELOPERS.md) for more information on contributing.
 

@@ -35,7 +35,7 @@ jobs:
       languages: ${{ steps.find-languages.outputs.languages }}
 
   build-test-publish:
-    name: 🚀 - Build, Test and Publish
+    name: 🚀 - Build, Run and Publish
     uses: ./.github/workflows/build-test-publish.yml
     needs: what-to-build
     secrets: inherit

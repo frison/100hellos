@@ -40,10 +40,30 @@ jobs:
     outputs:
       languages: ${{ steps.changes.outputs.changes }}
 
+  validate:
+    name: 🔬 - Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      -
+        name: 🛒 - Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 🧠 - Validations
+        id: generate-filters
+        shell: bash
+        run: |
+          ./.github/bin/validate.sh
+
+
   build-test-publish:
-    name: 🧪 - Build and Test
+    name: 🧪 - Build and Run
     uses: ./.github/workflows/build-test-publish.yml
-    needs: what-to-build
+    if: ${{ needs.what-to-build.outputs.languages != '[]' }}
+    needs:
+      - what-to-build
+      - validate
     secrets: inherit
     with:
       languages: ${{ needs.what-to-build.outputs.languages }}

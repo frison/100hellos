@@ -26,9 +26,9 @@ make perl I=1
 ```
 
 
-## `make new LANG=[lang]`
+## `make new HELLO=[lang]`
 
-This is how you bootstrap a new language. Behind the scenes? It's a `cp -r template [lang]`, a copy of the [template](./template) directory.
+This is how you bootstrap a new language. Behind the scenes? It's a `cp -r .template [lang]`, a copy of the [template](./.template) directory.
 
 The newly created files will be visible with a `git status` or equivalent, and will need to be committed when you're done. The materialized template should have enough to get you started.
 

@@ -17,7 +17,7 @@ IMAGE_PREFIX = ${DIR_NAME}
 BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
 NEW_FOLDER := template\ -\ $(shell date +%Y-%m-%d)
-NEW_COMMAND = @cp -r template $(NEW_FOLDER)
+NEW_COMMAND = @./.utils/new.sh "${NEW_FOLDER}"
 ADDITIONAL_OPTIONS :=
 
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
@@ -56,8 +56,8 @@ ifneq (,$(findstring x86_64,$(MAKECMDGOALS)))
 	ADDITIONAL_OPTIONS := ${ADDITIONAL_OPTIONS} IS_X86=1
 endif
 
-ifdef LANG
-	NEW_FOLDER = ${LANG}
+ifdef HELLO
+	NEW_FOLDER = ${HELLO}
 endif
 
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after
@@ -89,6 +89,7 @@ test: $(LANG_SUBDIRS)
 
 new:
 	$(NEW_COMMAND)
+	$(DECREMENT_COUNTER)
 
 clean-composite-dockerfile:
 	rm -f Dockerfile.composite

@@ -22,3 +22,12 @@ find_dependencies() {
 published_languages() {
   find . -maxdepth 1 -type d | sed 's|./||' | grep -vxFf .no-publish
 }
+
+log() {
+  echo "[$(date)] $1"
+}
+
+ci_error() {
+  >&2 echo "::error::$@"
+  exit 1
+}
