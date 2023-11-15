@@ -1,21 +1,9 @@
 PREFIX ?= /usr/local
-SRC = lang.c
-CFLAGS = -std=c99 -Wall -pedantic
-BIN = lang
 
-.PHONY: clean uninstall
-
-$(BIN):
-	$(CC) $(SRC) $(CFLAGS) -o $@
+.PHONY: install
 
 # This is the only necessary target in the Makefile
 # and it's expected to place the language interpretter
 # or compiler in the path.
-install: $(BIN)
-	install $(BIN) $(PREFIX)/bin
-
-clean:
-	rm -f $(BIN)
-
-uninstall:
-	rm -f $(PREFIX)/bin/$(BIN)
+install:
+	# do what you need to do to download and install the language
