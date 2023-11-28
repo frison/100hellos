@@ -38,12 +38,8 @@ jobs:
         uses: ./.github/actions/build-test-publish
         continue-on-error: false
         with:
-          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
-          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
           platforms: linux/amd64
           language: ${{ matrix.language }}
-          test: ${{ inputs.test }}
-          publish: false
 
   publish:
     name: 🚀 ${{ matrix.language }} (linux/amd64)
