@@ -1,6 +1,6 @@
 Object subclass: Hello [
   greet [
-    'Hello, world' displayNl
+    'Hello World!' displayNl
   ]
 ].
 
