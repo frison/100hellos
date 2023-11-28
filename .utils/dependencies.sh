@@ -31,3 +31,7 @@ ci_error() {
   >&2 echo "::error::$@"
   exit 1
 }
+
+ci_pass() {
+  echo "✅ $@"
+}
