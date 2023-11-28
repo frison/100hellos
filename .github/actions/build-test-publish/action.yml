@@ -4,10 +4,12 @@ description: "Publish to dockerhub with multiplatform support"
 inputs:
   dockerhub-username:
     description: "The dockerhub username to authenticate with and push the image to"
-    required: true
+    required: false
+    default: ${{ vars.DOCKERHUB_USERNAME }}
   dockerhub-token:
     description: "The dockerhub token to authenticate with and push the image to"
-    required: true
+    required: false
+    default: ${{ secrets.DOCKERHUB_TOKEN }}
   language:
     description: "The language to build an image for"
     required: true
@@ -16,11 +18,11 @@ inputs:
     required: true
   test:
     description: "Whether to run tests"
-    required: true
+    required: false
     default: "true"
   publish:
     description: "Whether to publish images"
-    required: true
+    required: false
     default: "false"
 runs:
   using: "composite"
@@ -138,6 +140,6 @@ runs:
       with:
         username: ${{ inputs.dockerhub-username }}
         password: ${{ inputs.dockerhub-token }}
-        repository: 100hellos/${{ inputs.language }}
+        repository: ${{ inputs.dockerhub-username }}/${{ inputs.language }}
         short-description: "\"Hello World!\" Written in ${{ inputs.language }}"
         readme-filepath: ./${{ inputs.language }}/README-Generated.md

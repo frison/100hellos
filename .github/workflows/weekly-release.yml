@@ -41,6 +41,5 @@ jobs:
     secrets: inherit
     with:
       languages: ${{ needs.what-to-build.outputs.languages }}
-      test: true
       publish: true
 
