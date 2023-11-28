@@ -5,11 +5,11 @@ inputs:
   dockerhub-username:
     description: "The dockerhub username to authenticate with and push the image to"
     required: false
-    default: ${{ vars.DOCKERHUB_USERNAME }}
+    default: "100hellos"
   dockerhub-token:
     description: "The dockerhub token to authenticate with and push the image to"
     required: false
-    default: ${{ secrets.DOCKERHUB_TOKEN }}
+    default: ""
   language:
     description: "The language to build an image for"
     required: true
