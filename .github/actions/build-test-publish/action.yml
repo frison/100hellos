@@ -124,7 +124,7 @@ runs:
       uses: docker/build-push-action@v3
       with:
         context: .
-        file: ${{ inputs.dockerfile }}}
+        file: ${{ inputs.dockerfile }}
         target: ${{ inputs.docker-build-target }}
         platforms: ${{ inputs.platforms }}
         push: true

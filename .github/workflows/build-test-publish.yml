@@ -91,7 +91,7 @@ jobs:
         uses: actions/checkout@master
 
       -
-        name: ⬇️ Multistage Dockerfile
+        name: ⬇️ Dockerfile.composite
         uses: actions/download-artifact@v3
         with:
           name: composite-dockerfile
