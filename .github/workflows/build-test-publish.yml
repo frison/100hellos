@@ -18,11 +18,33 @@ on:
         type: boolean
 
 jobs:
+  generate-composite-dockerfile:
+    name: 📝 Dockerfile.composite
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: 🛒 Checkout
+        uses: actions/checkout@master
+
+      -
+        name: 📝 Dockerfile.composite
+        shell: bash
+        run: |
+          make composite-dockerfile > /dev/null
+
+      -
+        name: ⬆️ Dockerfile.composite
+        uses: actions/upload-artifact@v3
+        with:
+          name: composite-dockerfile
+          path: Dockerfile.composite
+          retention-days: 1
+
   build-test:
     name:  ${{ matrix.language }} (linux/amd64)
     runs-on: ubuntu-latest
     if: ${{ inputs.test }}
-
+    needs: generate-composite-dockerfile
     strategy:
       fail-fast: false
       matrix:
@@ -34,12 +56,21 @@ jobs:
         uses: actions/checkout@master
 
       -
+        name: ⬇️ Dockerfile.composite
+        uses: actions/download-artifact@v3
+        with:
+          name: composite-dockerfile
+
+      -
         name: 🧪 Test
         uses: ./.github/actions/build-test-publish
         continue-on-error: false
         with:
+          display-as: ${{ matrix.language }}
+          dockerfile: Dockerfile.composite
+          docker-image: 100hellos/${{ matrix.language }}
+          docker-build-target: o100hellos_${{ matrix.language }}
           platforms: linux/amd64
-          language: ${{ matrix.language }}
 
   publish:
     name: 🚀 ${{ matrix.language }} (linux/amd64)
@@ -57,13 +88,33 @@ jobs:
         uses: actions/checkout@master
 
       -
+        name: ⬇️ Multistage Dockerfile
+        uses: actions/download-artifact@v3
+        with:
+          name: composite-dockerfile
+
+      -
+        name: Determine if language has documentation to publish
+        id: has-docs
+        shell: bash
+        run: |
+          ./.github/bin/generate-overview-readme.sh ${{ matrix.language }}
+
+      -
         name: 🎬 Publish
         uses: ./.github/actions/build-test-publish
         continue-on-error: true
         with:
+          display-as: ${{ matrix.language }}
+          dockerfile: Dockerfile.composite
+          docker-image: 100hellos/${{ matrix.language }}
+          docker-build-target: o100hellos_${{ matrix.language }}
+          platforms: linux/amd64
+
           dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-          platforms: linux/amd64
-          language: ${{ matrix.language }}
+          dockerhub-short-description: "\"Hello World!\" Written in ${{ inputs.language }}"
+          dockerhub-readme: ./${{ matrix.language }}/README-Generated.md
+
           test: ${{ inputs.test }}
           publish: ${{ inputs.publish }}

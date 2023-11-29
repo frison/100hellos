@@ -1,7 +1,10 @@
-name: "Publish Image to Dockerhub"
+name: "Build, Run, and Publish Docker Images"
 description: "Publish to dockerhub with multiplatform support"
 
 inputs:
+  display-as:
+    description: "The name to display in the workflow run"
+    required: true
   dockerhub-username:
     description: "The dockerhub username to authenticate with and push the image to"
     required: false
@@ -10,8 +13,19 @@ inputs:
     description: "The dockerhub token to authenticate with and push the image to"
     required: false
     default: ""
-  language:
-    description: "The language to build an image for"
+  dockerhub-description:
+    description: "The dockerhub description to update the image with"
+    required: false
+    default: ""
+  dockerfile:
+    description: "The dockerfile to build"
+    required: false
+    default: "Dockerfile.composite"
+  docker-build-target:
+    description: "The docker build target to build"
+    required: true
+  docker-image:
+    description: "The docker image to build, no tags"
     required: true
   platforms:
     description: "The platforms to build the image for"
@@ -53,37 +67,30 @@ runs:
       with:
         platforms: ${{ inputs.platforms }}
 
-    -
-      name: ✏️ + 🐳 Create Multistage Dockerfile
-      id: base
-      shell: bash
-      run: |
-        make composite-dockerfile > /dev/null
-
     # https://github.com/docker/build-push-action
     -
-      name: 🔨 + 🔄 - ${{ inputs.build-target }} (${{ inputs.platforms }})
+      name: 🔨 + 🔄 - ${{ inputs.display-as }} (${{ inputs.platforms }})
       uses: docker/build-push-action@v3
       with:
         context: .
         file: Dockerfile.composite
-        target: o100hellos_${{ inputs.language }}
+        target: ${{ inputs.build-target }}
         platforms: ${{ inputs.platforms }}
         load: true
-        tags: ${{ inputs.dockerhub-username }}/${{ inputs.language }}:local
+        tags: ${{ inputs.docker-image }}:local
         cache-to: |
           type=gha,mode=max
         cache-from: |
           type=gha,mode=max
-          type=registry,ref=${{ inputs.dockerhub-username }}/${{ inputs.language }}:latest,mode=max
+          type=registry,ref=$${{ inputs.docker-image }}:latest,mode=max
 
     -
-      name: 🏃 Run Image
+      name: 🏃 Run ${{ inputs.display-as }}
       if: ${{ inputs.test == 'true' }}
       continue-on-error: false
       shell: bash
       run: |
-        docker run --rm ${{ inputs.dockerhub-username }}/${{ inputs.language }}:local
+        docker run --rm ${{ inputs.docker-image }}:local
 
     # https://github.com/docker/metadata-action
     -
@@ -93,7 +100,7 @@ runs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ${{ inputs.dockerhub-username }}/${{ inputs.language }}
+          ${{ inputs.docker-image }}
         tags: |
           # On main: push `[:lang directory:]:latest.
           # On schedule: push `[:lang directory:]:YYYYMMDD`.
@@ -113,8 +120,8 @@ runs:
       uses: docker/build-push-action@v3
       with:
         context: .
-        file: Dockerfile.composite
-        target: o100hellos_${{ inputs.language }}
+        file: ${{ inputs.dockerfile }}}
+        target: ${{ inputs.docker-build-target }}
         platforms: ${{ inputs.platforms }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
@@ -122,14 +129,7 @@ runs:
           type=gha,mode=max
         cache-from: |
           type=gha,mode=max
-          type=registry,ref=${{ inputs.dockerhub-username }}/${{ inputs.language }}:latest,mode=max
-
-    -
-      name: Determine if language has documentation to publish
-      id: has-docs
-      shell: bash
-      run: |
-        ./.github/bin/generate-overview-readme.sh ${{ inputs.language }}
+          type=registry,ref=${{ inputs.docker-image }}:latest,mode=max
 
     -
       name: 🖋 Docker Hub
@@ -140,6 +140,6 @@ runs:
       with:
         username: ${{ inputs.dockerhub-username }}
         password: ${{ inputs.dockerhub-token }}
-        repository: ${{ inputs.dockerhub-username }}/${{ inputs.language }}
-        short-description: "\"Hello World!\" Written in ${{ inputs.language }}"
-        readme-filepath: ./${{ inputs.language }}/README-Generated.md
+        repository: ${{ inputs.docker-image }}
+        short-description: ${{ inputs.dockerhub-short-description }}
+        readme-filepath: ${{ inputs.dockerhub-readme }}
