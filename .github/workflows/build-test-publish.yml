@@ -44,7 +44,8 @@ jobs:
     name:  ${{ matrix.language }} (linux/amd64)
     runs-on: ubuntu-latest
     if: ${{ inputs.test }}
-    needs: generate-composite-dockerfile
+    needs:
+      - generate-composite-dockerfile
     strategy:
       fail-fast: false
       matrix:
@@ -76,7 +77,9 @@ jobs:
     name: 🚀 ${{ matrix.language }} (linux/amd64)
     runs-on: ubuntu-latest
     if: ${{ inputs.publish }}
-    needs: build-test
+    needs:
+      - build-test
+      - generate-composite-dockerfile
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +97,7 @@ jobs:
           name: composite-dockerfile
 
       -
-        name: Determine if language has documentation to publish
+        name: Generate Documentation
         id: has-docs
         shell: bash
         run: |
