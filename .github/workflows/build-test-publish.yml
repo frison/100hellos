@@ -113,7 +113,7 @@ jobs:
 
           dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-          dockerhub-short-description: "\"Hello World!\" Written in ${{ inputs.language }}"
+          dockerhub-description: "\"Hello World!\" Written in ${{ inputs.language }}"
           dockerhub-readme: ./${{ matrix.language }}/README-Generated.md
 
           test: ${{ inputs.test }}

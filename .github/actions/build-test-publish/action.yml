@@ -17,6 +17,10 @@ inputs:
     description: "The dockerhub description to update the image with"
     required: false
     default: ""
+  dockerhub-readme:
+    description: "The dockerhub readme to update dockerhub page with"
+    required: false
+    default: ""
   dockerfile:
     description: "The dockerfile to build"
     required: false
@@ -141,5 +145,5 @@ runs:
         username: ${{ inputs.dockerhub-username }}
         password: ${{ inputs.dockerhub-token }}
         repository: ${{ inputs.docker-image }}
-        short-description: ${{ inputs.dockerhub-short-description }}
+        short-description: ${{ inputs.dockerhub-description }}
         readme-filepath: ${{ inputs.dockerhub-readme }}
