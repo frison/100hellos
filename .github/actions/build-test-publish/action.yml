@@ -31,6 +31,10 @@ inputs:
   docker-image:
     description: "The docker image to build, no tags"
     required: true
+  docker-context:
+    description: "The docker context to build the image in"
+    required: false
+    default: "."
   platforms:
     description: "The platforms to build the image for"
     required: true
@@ -76,8 +80,8 @@ runs:
       name: 🔨 + 🔄 - ${{ inputs.display-as }} (${{ inputs.platforms }})
       uses: docker/build-push-action@v3
       with:
-        context: .
-        file: Dockerfile.composite
+        context: ${{ inputs.docker-context }}
+        file: ${{ inputs.dockerfile }}
         target: ${{ inputs.build-target }}
         platforms: ${{ inputs.platforms }}
         load: true
@@ -123,7 +127,7 @@ runs:
       if: ${{ inputs.publish == 'true' }}
       uses: docker/build-push-action@v3
       with:
-        context: .
+        context: ${{ inputs.docker-context }}
         file: ${{ inputs.dockerfile }}
         target: ${{ inputs.docker-build-target }}
         platforms: ${{ inputs.platforms }}

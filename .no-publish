@@ -7,6 +7,7 @@
 .github
 .utils
 .template
+.base
 000-base
 100-java11
 200-dotnet

@@ -1,0 +1,51 @@
+name: 🧱 + 🖐 - On Base Push
+
+# (Name of the workflow)-(fully formed ref (ie. refs/heads/main,refs/tags/v10,refs/pull/<pr_number>/merge))
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-publish-base:
+    name: 🚀 - Build, Run and Publish Base
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: 🛒 - Checkout
+        uses: actions/checkout@master
+
+      # https://github.com/dorny/paths-filter
+      -
+        name: 📂 - Changed Languages?
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            base:
+              - .base/**
+
+      -
+        if: steps.changes.outputs.base == 'true'
+        name: 🎬 Publish
+        uses: ./.github/actions/build-test-publish
+        with:
+          display-as: Base
+          dockerfile: .base/Dockerfile
+          docker-image: 100hellos/base
+          docker-context: .base
+          docker-build-target: base
+          platforms: linux/amd64
+
+          dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerhub-description: "All \"Hello World!\"'s start with this image."
+          dockerhub-readme: ./.base/README.md
+
+          test: true
+          publish: ${{ github.ref == 'refs/heads/main' }}
+
+

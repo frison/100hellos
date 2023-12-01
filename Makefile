@@ -18,6 +18,8 @@ BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
 NEW_FOLDER := template\ -\ $(shell date +%Y-%m-%d)
 NEW_COMMAND = @./.utils/new.sh "${NEW_FOLDER}"
+DOCKER_BUILD_BASE_IMAGE = @docker build -f .base/Dockerfile -t ${IMAGE_PREFIX}/base:local .base
+
 ADDITIONAL_OPTIONS :=
 
 ifeq ($(filter $(LANG_SUBDIRS), $(MAKECMDGOALS)),)
@@ -69,6 +71,9 @@ build: $(BASE_SUBDIRS) $(LANG_SUBDIRS)
 
 # Clean in reverse-order to minimize forced image deletions because of dependent images.
 clean: $(LANG_SUBDIRS) $(BASE_SUBDIRS)
+
+base-image:
+	$(DOCKER_BUILD_BASE_IMAGE)
 
 base: $(BASE_SUBDIRS)
 
