@@ -90,7 +90,7 @@ runs:
           type=gha,mode=max
         cache-from: |
           type=gha,mode=max
-          type=registry,ref=$${{ inputs.docker-image }}:latest,mode=max
+          type=registry,ref=${{ inputs.docker-image }}:latest,mode=max
 
     -
       name: 🏃 Run ${{ inputs.display-as }}
