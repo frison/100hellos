@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 REPO_DIR="$SCRIPT_DIR/../.."
-source "$REPO_DIR/.utils/dependencies.sh"
+source "$REPO_DIR/.utils/functions.sh"
 
 PUBLISHED_LANGUAGE_COUNT=$(published_languages | wc -l)
 LANGUAGES_TO_GO=$((100 - PUBLISHED_LANGUAGE_COUNT))

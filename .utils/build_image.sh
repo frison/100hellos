@@ -6,7 +6,7 @@
 #   build_image.sh visual-basic
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source "$SCRIPT_DIR/dependencies.sh"
+source "$SCRIPT_DIR/functions.sh"
 cd "$SCRIPT_DIR/.."
 
 build_image() {

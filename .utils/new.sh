@@ -4,7 +4,7 @@
 
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source "$SCRIPT_DIR/dependencies.sh"
+source "$SCRIPT_DIR/functions.sh"
 REPO_DIR="$SCRIPT_DIR/.."
 
 NEW_FOLDER=$1
