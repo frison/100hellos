@@ -82,7 +82,7 @@ runs:
       with:
         context: ${{ inputs.docker-context }}
         file: ${{ inputs.dockerfile }}
-        target: ${{ inputs.build-target }}
+        target: ${{ inputs.docker-build-target }}
         platforms: ${{ inputs.platforms }}
         load: true
         tags: ${{ inputs.docker-image }}:local
@@ -123,7 +123,7 @@ runs:
 
     # https://github.com/docker/build-push-action
     -
-      name: 🚀 ${{ inputs.build-target }} (${{ inputs.platforms }})
+      name: 🚀 ${{ inputs.display-as }} (${{ inputs.platforms }})
       if: ${{ inputs.publish == 'true' }}
       uses: docker/build-push-action@v3
       with:
