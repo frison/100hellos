@@ -1,4 +1,4 @@
-FROM 100hellos/000-base:local
+FROM 100hellos/050-c:local
 
 RUN sudo \
   apk add --no-cache \

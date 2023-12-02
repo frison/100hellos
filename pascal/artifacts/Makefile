@@ -10,6 +10,7 @@ install:
 	tar -xf fpc-3.2.2.x86_64-linux.tar
 	rm fpc-3.2.2.x86_64-linux.tar
 	cd fpc-3.2.2.x86_64-linux && tar -xf binary.x86_64-linux.tar
+	[[ ! -d $(HOME)/.local/ ]] && mkdir $(HOME)/.local
 	tar -C $(HOME)/.local -xf fpc-3.2.2.x86_64-linux/base.x86_64-linux.tar.gz
 	tar -C $(HOME)/.local -xf fpc-3.2.2.x86_64-linux/utils.x86_64-linux.tar.gz
 	tar -C $(HOME)/.local -xf fpc-3.2.2.x86_64-linux/units-rtl-console.x86_64-linux.tar.gz
