@@ -1,0 +1,11 @@
+--- Source/GSFormat.m	2023-01-08 01:41:32.000000000 -0700
++++ Source/GSFormat.m	2023-12-03 18:27:52.783331316 -0700
+@@ -889,7 +889,7 @@
+      since on some systems `va_list' is not an integral type.  */
+   __va_copy (ap_save, ap);
+ #else
+-  ap_save = ap;
++  va_copy(ap_save, ap);
+ #endif
+   nspecs_done = 0;
+ 
