@@ -1,0 +1,10 @@
+--- src/Common.hh	2019-06-23 06:39:20.000000000 -0600
++++ src/Common.hh	2023-12-03 20:55:31.466712786 -0700
+@@ -58,6 +58,7 @@
+ #include <iostream>
+ #include <iomanip>
+ #include <fstream>
++#include <cstring>
+ 
+ #include "APL_types.hh"
+ #include "Assert.hh"
