@@ -13,6 +13,6 @@ ENV PATH /home/human/.local/bin:$PATH
 ENV LD_LIBRARY_PATH /home/human/.local/lib
 
 COPY --chown=human:human ./artifacts /artifacts
-RUN cd /artifacts && PATH=$PATH:$HOME/.local/bin make install
+RUN cd /artifacts && make install
 
 COPY --chown=human:human ./files /hello-world

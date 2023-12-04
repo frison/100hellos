@@ -1,7 +1,5 @@
 # syntax=docker/dockerfile:1
 # escape=\
-#FROM 100hellos/100-java11:local
-#FROM 100hellos/200-dotnet:local
 FROM 100hellos/000-base:local
 
 RUN sudo \
