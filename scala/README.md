@@ -1,0 +1,3 @@
+# Scala
+
+Scalable + Language = Scala. Scala is a general purpose programming language designed to express common programming patterns in a concise, elegant, and type-safe way. It smoothly integrates features of object-oriented and functional languages. It is also fully interoperable with Java so that libraries written in either language may be referenced directly in Scala or Java code, giving Scala programmers access to the full breadth of Java libraries.
