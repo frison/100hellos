@@ -11,7 +11,17 @@ on:
 
 jobs:
   build-test-publish-base:
-    name: 🚀 - Build, Run and Publish Base
+    strategy:
+      fail-fast: false
+      matrix:
+        alpine-version:
+          - '3.18' # The latest
+          - '3.10' # Required for emojicode because of it's llvm8 dependency
+        include:
+          - alpine-version: '3.10'
+            image-label-prefix: 'alpine-3.10-'
+
+    name: 🚀 - alpine:${{ matrix.alpine-version }} - Build, Run and Publish Base
     runs-on: ubuntu-latest
     steps:
       -
@@ -36,8 +46,11 @@ jobs:
           display-as: Base
           dockerfile: .base/Dockerfile
           docker-image: 100hellos/base
+          docker-label-prefix: ${{ matrix.image-label-prefix }}
           docker-context: .base
           docker-build-target: base
+          docker-build-args: |
+            ALPINE_VERSION=${{ matrix.alpine-version }}
           platforms: linux/amd64
 
           dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
@@ -47,5 +60,6 @@ jobs:
 
           test: true
           publish: ${{ github.ref == 'refs/heads/main' }}
+          publish-dockerhub-description: ${{ matrix.alpine-version == '3.18' }}
 
 

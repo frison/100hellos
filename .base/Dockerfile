@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 # escape=\
-FROM alpine:3.18 AS earth
+ARG ALPINE_VERSION=3.18
+FROM alpine:${ALPINE_VERSION} AS earth
 
 # When there are upstream dependency changes that would not result
 # in a rebuild of the image, we can explain why we need a rebuild here
@@ -15,8 +16,14 @@ RUN apk add --no-cache \
     zsh \
     sudo \
     make \
-    yq jq \
+    jq \
     vim
+
+# As we target alpine 3.10 and alpine 3.18 -- and sadly yq is not available
+# in alpine 3.10 -- we only install yq if we are on alpine 3.18.
+# We don't care about the extra layer because of the flattening at the bottom
+# of the Dockerfile.
+RUN [[ "${ALPINE_VERSION}" == "3.18" ]] && apk add --no-cache yq || true
 
 # Create a group and user
 RUN addgroup -S human \
