@@ -1,7 +1,6 @@
 # Hello World! I'm a part of every language!
 
-This is the base image for all of the language images. You can **[check it out on Github here](https://github.com/frison/100hellos/tree/main/.base)**!
-
+This is the alpine base image for all of the language images. You can **[check it out on Github here](https://github.com/frison/100hellos/tree/main/.base)**! Multiple versions of alpine are supported, as some languages (👀 at you emojicode) require older versions of alpine.
 
 ## Base Container
 

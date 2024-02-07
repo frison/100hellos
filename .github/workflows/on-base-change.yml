@@ -30,13 +30,14 @@ jobs:
 
       # https://github.com/dorny/paths-filter
       -
-        name: 📂 - Changed Languages?
+        name: 📂 - Base Changed?
         id: changes
         uses: dorny/paths-filter@v2
         with:
           filters: |
             base:
               - .base/**
+              - .github/workflows/on-base-change.yml
 
       -
         if: steps.changes.outputs.base == 'true'
