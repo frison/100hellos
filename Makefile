@@ -11,8 +11,8 @@
 # Note: It is assumed there are no dependencies between the non-base containers.
 
 DIR_NAME := $(notdir ${CURDIR})
-BASE_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" -exec dirname "{}" \; | sort | grep '.*[0-9]\{3\}-.*')
-LANG_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" -exec dirname "{}" \; | sort | grep -v '[0-9]\{3\}-.*')
+BASE_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" -exec dirname "{}" \; | grep '.*[0-9]\{3\}-.*' | sort )
+LANG_CONTAINERS = $(shell find ${CURDIR} -maxdepth 1 -type d -printf '%P\n' | grep -vxFf .no-publish | sort )
 IMAGE_PREFIX = ${DIR_NAME}
 BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
@@ -65,6 +65,12 @@ endif
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after
 # subdirectories.
 .PHONY: build clean base new clean-composite-dockerfile composite-dockerfile $(BASE_SUBDIRS) $(LANG_SUBDIRS)
+
+cheese:
+	echo "${LANG_SUBDIRS}"
+
+meat:
+	echo "${CURDIR}"
 
 $(DIR_NAME): build
 build: $(BASE_SUBDIRS) $(LANG_SUBDIRS)
