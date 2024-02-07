@@ -103,7 +103,7 @@ runs:
           type=gha,mode=max
         cache-from: |
           type=gha,mode=max
-          type=registry,ref=${{ inputs.docker-image }}:latest,mode=max
+          type=registry,ref=${{ inputs.docker-image }}:${{ inputs.docker-label-prefix }}latest,mode=max
 
     -
       name: 🏃 Run ${{ inputs.display-as }}
@@ -122,19 +122,20 @@ runs:
       with:
         images: |
           ${{ inputs.docker-image }}
-        flavor: |
-          prefix=${{ inputs.docker-label-prefix }}
         tags: |
           # On main: push `[:lang directory:]:latest.
           # On schedule: push `[:lang directory:]:YYYYMMDD`.
           # Always: push `[:lang directory:]:edge`.
           # On tag: push `[:lang directory:]:[:tag]`.
           # Always: push `[:lang directory:]:[:short_sha (7 chars)]`.
-          type=raw,value=latest,priority=1000,enable={{is_default_branch}}
-          type=schedule,pattern={{date 'YYYYMMDD'}}
-          type=raw,value=edge,priority=700
-          type=ref,enable=true,priority=600,event=tag
-          type=sha,enable=true,priority=100,format=short
+
+          # Because of inconsistent behaviours with the use of flavour and between
+          # tag types, we explicilty set it across all tags.
+          prefix=${{ inputs.docker-label-prefix }},type=raw,value=latest,priority=1000,enable={{is_default_branch}}
+          prefix=${{ inputs.docker-label-prefix }},type=schedule,pattern={{date 'YYYYMMDD'}}
+          prefix=${{ inputs.docker-label-prefix }},type=raw,value=edge,priority=700
+          prefix=${{ inputs.docker-label-prefix }},type=ref,enable=true,priority=600,event=tag
+          prefix=${{ inputs.docker-label-prefix }},type=sha,enable=true,priority=100,format=short
 
     # https://github.com/docker/build-push-action
     -
@@ -146,6 +147,7 @@ runs:
         file: ${{ inputs.dockerfile }}
         target: ${{ inputs.docker-build-target }}
         platforms: ${{ inputs.platforms }}
+        build-args: ${{ inputs.docker-build-args }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         cache-to: |
