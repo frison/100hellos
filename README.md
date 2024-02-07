@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://hub.docker.com/r/100hellos" alt="DockerHub!">
-    <img src="https://img.shields.io/badge/Hello%20World!-53_to_go-red"
+    <img src="https://img.shields.io/badge/Hello%20World!-52_to_go-red"
         height="130"></a>
 </p>
 

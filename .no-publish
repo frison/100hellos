@@ -23,7 +23,3 @@
 # c
 # r
 
-# emojicode is a straight up mess, with a high risk of it not
-# working due to the approach taken to get llvm8 working on
-# alpine:3.18
-emojicode
