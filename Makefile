@@ -66,12 +66,6 @@ endif
 # subdirectories.
 .PHONY: build clean base new clean-composite-dockerfile composite-dockerfile $(BASE_SUBDIRS) $(LANG_SUBDIRS)
 
-cheese:
-	echo "${LANG_SUBDIRS}"
-
-meat:
-	echo "${CURDIR}"
-
 $(DIR_NAME): build
 build: $(BASE_SUBDIRS) $(LANG_SUBDIRS)
 
