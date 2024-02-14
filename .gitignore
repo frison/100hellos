@@ -11,3 +11,6 @@ Dockerfile.composite
 
 # Dockerhub Repository Overview generated text
 **/README-Generated.md
+
+# A local scratch pad
+SCRATCH.md
