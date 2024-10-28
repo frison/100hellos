@@ -1,4 +1,4 @@
-**Modifying the base image will require you to rebuild all language images, this will mean building 100 images.**
+**Modifying the base image will require you to rebuild all language images, this will mean building 100+ images.**
 
 ### `git-layer`
 

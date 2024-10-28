@@ -35,12 +35,15 @@ Just add bgnotify to your plugins list in your `.zshrc`
 
 One can configure a few things:
 
+- `bgnotify_bell` enabled or disables the terminal bell (default true)
 - `bgnotify_threshold` sets the notification threshold time (default 6 seconds)
 - `function bgnotify_formatted` lets you change the notification. You can for instance customize the message and pass in an icon.
+- `bgnotify_extraargs` appends extra args to notifier (e.g. `-e` for notify-send to create a transient notification)
 
 Use these by adding a function definition before the your call to source. Example:
 
 ```sh
+bgnotify_bell=false   ## disable terminal bell
 bgnotify_threshold=4  ## set your own notification threshold
 
 function bgnotify_formatted {
