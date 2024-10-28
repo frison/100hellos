@@ -6,7 +6,7 @@ FROM alpine:${ALPINE_VERSION} AS earth
 # When there are upstream dependency changes that would not result
 # in a rebuild of the image, we can explain why we need a rebuild here
 # and force subsequent layers to rebuild.
-RUN echo "2022-10-04 : aint no cache busting yet" > /tmp/cache-buster
+RUN echo "2024-10-28 : New Clio Hackathon, rebuild them all!" > /tmp/cache-buster
 
 RUN apk add --no-cache \
     ca-certificates \
