@@ -12,13 +12,17 @@
 
 DIR_NAME := $(notdir ${CURDIR})
 BASE_CONTAINERS = $(shell find ${CURDIR} -maxdepth 2 -type f -name "Dockerfile" -exec dirname "{}" \; | grep '.*[0-9]\{3\}-.*' | sort )
-LANG_CONTAINERS = $(shell find ${CURDIR} -maxdepth 1 -type d -printf '%P\n' | grep -vxFf .no-publish | sort )
+LANG_CONTAINERS = $(shell find ${CURDIR} -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | grep -vxFf .no-publish | sort )
 IMAGE_PREFIX = ${DIR_NAME}
 BASE_SUBDIRS = $(notdir ${BASE_CONTAINERS})
 LANG_SUBDIRS = $(notdir ${LANG_CONTAINERS})
 NEW_FOLDER := template\ -\ $(shell date +%Y-%m-%d)
 NEW_COMMAND = @./.utils/new.sh "${NEW_FOLDER}"
 DOCKER_BUILD_BASE_IMAGE = @docker build -f .base/Dockerfile -t ${IMAGE_PREFIX}/base:local .base
+
+# As multi-architecture images aren't currently well supported
+# We fix them all to X86 for now
+IS_X86 := 1
 
 ADDITIONAL_OPTIONS :=
 

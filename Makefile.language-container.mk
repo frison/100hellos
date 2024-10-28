@@ -11,6 +11,9 @@ PUBLISHED_SUBDIRS = $(notdir ${PUBLISHED_CONTAINERS})
 PROJECT_RELATIVE_DIR :=$(shell realpath --relative-base=${COMPOSITE_DOCKERFILE_DIR} ${CURDIR})
 ESCAPED_PROJECT_RELATIVE_DIR := $(shell echo ${PROJECT_RELATIVE_DIR} | sed 's/\//\\\//g')
 
+# As multi-architecture images aren't currently well supported
+# We fix them all to X86 for now
+IS_X86 := 1
 
 # Phony targets are targets that don't reference files; they are just commands -- some just happened to be named after
 # subdirectories.
@@ -28,7 +31,7 @@ ifdef IS_MOUNT
 	DOCKER_RUN_ARGS := ${DOCKER_RUN_ARGS} -v "${CURDIR}/files":/hello-world
 endif
 
-DOCKER_BUILD = @${CURDIR}/../.utils/build_image.sh ${DIR_NAME}
+DOCKER_BUILD = ${CURDIR}/../.utils/build_image.sh ${DIR_NAME} ${DOCKER_BUILD_ARGS}
 DOCKER_RUN = @docker run ${DOCKER_RUN_ARGS} ${TAG_PATH_ROOT}/${DIR_NAME}:local
 DOCKER_RUN_INTERACTIVE = @docker run ${DOCKER_RUN_ARGS} -it --entrypoint="" ${TAG_PATH_ROOT}/${DIR_NAME}:local zsh
 DOCKER_CLEAN = @docker rmi --force ${TAG_PATH_ROOT}/${DIR_NAME}:local || true

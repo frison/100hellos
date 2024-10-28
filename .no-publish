@@ -8,6 +8,8 @@
 .utils
 .template
 .base
+.trunk
+.vscode
 000-base
 050-c
 100-java11

@@ -11,16 +11,21 @@ cd "$SCRIPT_DIR/.."
 
 build_image() {
   local language=$1
+  shift
+  local build_args=$*
   local dockerfile="$language/Dockerfile"
   local image_name="100hellos/$language:local"
-  docker build -t "$image_name" -f "$dockerfile" "$language"
+  docker build $build_args -t "$image_name" -f "$dockerfile" "$language"
 }
 
 language=$1
-echo "Building dependencies for: $language"
+shift
+build_args=$*
+
+echo "Building dependencies for: $language with docker args \"$build_args\""
 for dependency in $(find_dependencies "$language" | sort -u); do
   echo "Building dependency: $dependency"
-  build_image "$dependency"
+  build_image "$dependency" $build_args
 done
 
-build_image "$language"
+build_image "$language" $build_args
