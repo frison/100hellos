@@ -1,14 +1,16 @@
 # The purpose of this Makefile is to be included by the Makefiles in the language directories.
 # It provides a common set of targets and variables for those Makefiles to use.
-
-DIR_NAME :=$(shell realpath --relative-base=${CURDIR}/.. ${CURDIR})
+#
+# Instead of using --relative-to or other options for realpath, we use sed to remove the parent directory
+# as it's more portable across different versions of realpath.
 ABSOLUTE_PARENT_DIR := $(shell realpath ${CURDIR}/..)
-PARENT_DIR := $(shell realpath --relative-base=${ABSOLUTE_PARENT_DIR}/.. ${ABSOLUTE_PARENT_DIR})
+ABSOLUTE_PARENT_PARENT_DIR := $(shell realpath ${ABSOLUTE_PARENT_DIR}/..)
+DIR_NAME :=$(shell echo ${CURDIR} | sed "s|${ABSOLUTE_PARENT_DIR}||g" | sed "s|^/||g")
+PARENT_DIR :=$(shell echo ${ABSOLUTE_PARENT_DIR} | sed "s|${ABSOLUTE_PARENT_PARENT_DIR}||g" | sed "s|^/||g")
 TAG_PATH_ROOT := 100hellos
 PUBLISHED_CONTAINERS = $(shell find ${ABSOLUTE_PARENT_DIR} -maxdepth 2 -type f -name "Dockerfile" -exec dirname "{}" \; | sort | grep -v '[0-9]\{3\}-.*')
 PUBLISHED_SUBDIRS = $(notdir ${PUBLISHED_CONTAINERS})
-
-PROJECT_RELATIVE_DIR :=$(shell realpath --relative-base=${COMPOSITE_DOCKERFILE_DIR} ${CURDIR})
+PROJECT_RELATIVE_DIR :=$(shell echo ${CURDIR} | sed "s|${COMPOSITE_DOCKERFILE_DIR}||g" | sed "s|^/||g")
 ESCAPED_PROJECT_RELATIVE_DIR := $(shell echo ${PROJECT_RELATIVE_DIR} | sed 's/\//\\\//g')
 
 # As multi-architecture images aren't currently well supported
