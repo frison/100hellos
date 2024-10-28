@@ -9,7 +9,7 @@ RUN sudo \
     libffi-dev \
     icu-dev
 
-ENV PATH /home/human/.local/bin:$PATH
+ENV PATH=/home/human/.local/bin:$PATH
 ENV LD_LIBRARY_PATH /home/human/.local/lib
 
 COPY --chown=human:human ./artifacts /artifacts

@@ -38,9 +38,9 @@ RUN \
 
 USER human
 WORKDIR /home/human
-ENV HOME /home/human
-ENV PATH /usr/local/bin:$PATH
-ENV HOSTNAME world
+ENV HOME=/home/human
+ENV PATH=/usr/local/bin:$PATH
+ENV HOSTNAME=world
 
 # Set home permissions and install oh-my-zsh
 RUN \
@@ -58,9 +58,9 @@ COPY --from=earth / /
 USER human
 WORKDIR /home/human
 
-ENV HOME /home/human
-ENV PATH /usr/local/bin:$PATH
-ENV HOSTNAME world
+ENV HOME=/home/human
+ENV PATH=/usr/local/bin:$PATH
+ENV HOSTNAME=world
 
 ENTRYPOINT ["/entrypoint.sh"]
 

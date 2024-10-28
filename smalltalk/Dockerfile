@@ -13,5 +13,5 @@ RUN cd /artifacts && make install
 
 # We install smalltalk into our local user account's home directory
 # So we add that to the path.
-ENV PATH /home/human/.local/bin:$PATH
+ENV PATH=/home/human/.local/bin:$PATH
 COPY --chown=human:human ./files /hello-world

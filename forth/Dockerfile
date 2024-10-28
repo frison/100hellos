@@ -8,7 +8,7 @@ RUN sudo \
     musl-dev \
     diffutils
 
-ENV PATH /home/human/.local/bin:$PATH
+ENV PATH=/home/human/.local/bin:$PATH
 
 COPY --chown=human:human ./artifacts /artifacts
 RUN cd /artifacts && make install
