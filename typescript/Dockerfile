@@ -1,10 +1,7 @@
 # syntax=docker/dockerfile:1
 # escape=\
-FROM 100hellos/000-base:local
+FROM 100hellos/300-node:local
 
-RUN sudo \
-  apk add --no-cache \
-    nodejs npm \
-  && sudo npm i -g typescript
+RUN sudo npm i -g typescript
 
 COPY --chown=human:human ./files /hello-world
