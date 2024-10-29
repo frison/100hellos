@@ -138,6 +138,8 @@ runs:
           prefix=${{ inputs.docker-label-prefix }},type=sha,enable=true,priority=100,format=short
 
     # https://github.com/docker/build-push-action
+    # Note this only uses GHA caches as they should we warm from the previous step.
+    # This helps with 429 rate limiting errors from Docker Hub.
     -
       name: 🚀 ${{ inputs.display-as }} (${{ inputs.platforms }})
       if: ${{ inputs.publish == 'true' }}
@@ -154,7 +156,6 @@ runs:
           type=gha,mode=max
         cache-from: |
           type=gha,mode=max
-          type=registry,ref=${{ inputs.docker-image }}:${{ inputs.docker-label-prefix }}latest,mode=max
 
     -
       name: 🖋 Docker Hub
