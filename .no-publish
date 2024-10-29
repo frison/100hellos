@@ -14,6 +14,7 @@
 050-c
 100-java11
 200-dotnet
+300-node
 
 # A repository's name must:
 #  - be unique within the account
