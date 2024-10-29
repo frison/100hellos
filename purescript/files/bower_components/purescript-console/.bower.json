@@ -1,0 +1,33 @@
+{
+  "name": "purescript-console",
+  "homepage": "https://github.com/purescript/purescript-console",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/purescript/purescript-console.git"
+  },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "output",
+    "test",
+    "bower.json",
+    "package.json"
+  ],
+  "dependencies": {
+    "purescript-effect": "^4.0.0",
+    "purescript-prelude": "^6.0.0"
+  },
+  "version": "6.0.0",
+  "_release": "6.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v6.0.0",
+    "commit": "3b83d7b792d03872afeea5e62b4f686ab0f09842"
+  },
+  "_source": "https://github.com/purescript/purescript-console.git",
+  "_target": "v6.0.0",
+  "_originalSource": "purescript-console",
+  "_direct": true
+}

@@ -1,0 +1,32 @@
+{
+  "name": "purescript-effect",
+  "homepage": "https://github.com/purescript/purescript-effect",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/purescript/purescript-effect.git"
+  },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "node_modules",
+    "output",
+    "test",
+    "bower.json",
+    "package.json"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^6.0.0"
+  },
+  "version": "4.0.0",
+  "_release": "4.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.0.0",
+    "commit": "a192ddb923027d426d6ea3d8deb030c9aa7c7dda"
+  },
+  "_source": "https://github.com/purescript/purescript-effect.git",
+  "_target": "v4.0.0",
+  "_originalSource": "purescript-effect",
+  "_direct": true
+}

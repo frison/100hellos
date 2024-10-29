@@ -1,0 +1,17 @@
+{
+  "name": "hello-world",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "v6.0.0",
+    "purescript-console": "v6.0.0",
+    "purescript-effect": "v4.0.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "v6.0.0"
+  }
+}
