@@ -118,7 +118,7 @@ runs:
       name: 🐳 Generate Image Metadata
       if: ${{ inputs.publish == 'true' }}
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: |
           ${{ inputs.docker-image }}
@@ -159,7 +159,7 @@ runs:
 
     -
       name: 🖋 Docker Hub
-      uses: peter-evans/dockerhub-description@5862ccd54c82fd1a0e6c5533916f2c53ddc5d25f
+      uses: peter-evans/dockerhub-description@v4
       # Check if the repo has a README.md for publication, and if so update the
       # description on Docker Hub.
       if: ${{ inputs.publish == 'true' && inputs.publish-dockerhub-description == 'true' }}
