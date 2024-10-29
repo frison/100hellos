@@ -34,7 +34,7 @@ jobs:
 
       -
         name: ⬆️ Dockerfile.composite
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: composite-dockerfile
           path: Dockerfile.composite
@@ -58,7 +58,7 @@ jobs:
 
       -
         name: ⬇️ Dockerfile.composite
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: composite-dockerfile
 
@@ -92,7 +92,7 @@ jobs:
 
       -
         name: ⬇️ Dockerfile.composite
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: composite-dockerfile
 
