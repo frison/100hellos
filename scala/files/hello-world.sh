@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 
-scalac HelloWorld.scala
-scala HelloWorld
+scala run HelloWorld.scala

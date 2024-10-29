@@ -4,7 +4,7 @@ FROM 100hellos/100-java11:local
 
 RUN sudo \
   apk add --no-cache \
-    gcompat
+    gcompat bash
 
 COPY --chown=human:human ./artifacts /artifacts
 RUN cd /artifacts && make install
