@@ -1,0 +1,240 @@
+int x = 0, y = 0;                /* x and y of the PC */
+int dx = 1, dy = 0;              /* direction of the PC */
+int v10err_compat = 0;           /* flag : emulate v1.0 off-by-one err? */
+int stringmode = 0;              /* flag : are we in string mode? */
+
+struct stack                    /* stack structure, for values on stack */
+  {
+    signed long val;
+    struct stack *next;
+  }
+ *head;                         /* head of stack */
+
+void push (signed long val);
+signed long pop (void);
+
+int main(int argc, char **argv) {
+  while ((cur != '@') || (stringmode))          /*** Intepreting Phase */
+  {
+    if (stringmode && (cur != '"'))
+      push (cur);
+    else if (isdigit (cur))
+      push (cur - '0');
+    else
+      switch (cur)
+      {
+	 case '>':            /* PC Right */
+	   dx = 1;
+	   dy = 0;
+	   break;
+	 case '<':            /* PC Left */
+	   dx = -1;
+	   dy = 0;
+	   break;
+	 case '^':            /* PC Up */
+	   dx = 0;
+	   dy = -1;
+	   break;
+	 case 'v':            /* PC Down */
+	   dx = 0;
+	   dy = 1;
+	   break;
+	 case '|':            /* Vertical 'If' */
+	   dx = 0;
+	   if (pop ())
+	     dy = -1;
+	   else
+	     dy = 1;
+	   break;
+	 case '_':            /* Horizontal 'If' */
+	   dy = 0;
+	   if (pop ())
+	     dx = -1;
+	   else
+	     dx = 1;
+	   break;
+	 case '+':            /* Add */
+	   push (pop () + pop ());
+	   break;
+	 case '-':            /* Subtract */
+	   {
+	     long a = pop();
+	     long b = pop();
+	     push(b - a);
+	   }
+	   break;
+	 case '*':            /* Multiply */
+	   push (pop () * pop ());
+	   break;
+	 case '/':            /* Integer Divide */
+	   {
+	     signed long a = pop ();
+	     signed long b = pop ();
+	     push (b / a);
+	   }
+	   break;
+	 case '%':            /* Modulo */
+	   {
+	     signed long a = pop ();
+	     signed long b = pop ();
+	     push (b % a);
+	   }
+	   break;
+	 case '\\':           /* Swap */
+	   {
+	     signed long a = pop ();
+	     signed long b = pop ();
+	     push (a);
+	     push (b);
+	   }
+	   break;
+	 case '.':            /* Pop Out Integer */
+	   {
+		 fprintf (stdout, "%ld ", pop ());
+		 fflush (stdout);
+	   }
+	   break;
+	 case ',':            /* Pop Out ASCII */
+	   {
+		 fprintf (stdout, "%c", pop ());
+		 fflush (stdout);
+	   }
+	   break;
+	 case '"':		/* Toggle String Mode */
+	   stringmode = !stringmode;
+	   break;
+	 case ':':            /* Duplicate */
+	   {
+	     signed long a = pop ();
+	     push (a);
+	     push (a);
+	   }
+	   break;
+	 case '!':            /* Negate */
+	if (pop())
+	  push(0);
+	else
+	  push(1);
+	   break;
+	 case '`':
+	   {
+	     signed long b = pop ();
+	     signed long a = pop ();
+	     push (a > b);
+	   }
+	   break;
+	 case '#':            /* Bridge */
+	   x += dx;
+	   y += dy;
+	   break;
+	 case '$':            /* Pop and Discard */
+	   pop ();
+	   break;
+	 case '?':            /* Random Redirect */
+	   switch ((rand () / 32) % 4)
+	      {
+	      case 0:
+		dx = 1;
+		dy = 0;
+		break;
+	      case 1:
+		dx = -1;
+		dy = 0;
+		break;
+	      case 2:
+		dx = 0;
+		dy = -1;
+		break;
+	      case 3:
+		dx = 0;
+		dy = 1;
+		break;
+	      }
+	   break;
+	 case '&':            /* Input Integer */
+	   {
+	     signed long b;
+		 fscanf (stdin, "%ld", &b);
+		 push (b);
+	   }
+	   break;
+	 case '~':            /* Input ASCII */
+	   {
+	     char c;
+		 c = fgetc (stdin);
+		 push (c);
+	   }
+	   break;
+	 case 'g':            /* Get Value */
+	   {
+	     signed long y = pop (), x = pop ();
+	     push (cur);
+	   }
+	   break;
+	 case 'p':            /* Put Value */
+	   {
+	     signed long y = pop (), x = pop ();
+	     cur = pop ();
+	   }
+	   break;
+	 default:
+	   break;
+      }
+    x += dx;
+    y += dy;
+    if (x < 0)
+      if (v10err_compat)
+      {
+	x = LINEWIDTH;
+      } else
+      {
+	x = LINEWIDTH - 1;
+      }
+    else
+      x = x % LINEWIDTH;
+    if (y < 0)
+      if (v10err_compat)
+      {
+	y = PAGEHEIGHT;
+      } else
+      {
+	y = PAGEHEIGHT - 1;
+      }
+    else
+      y = y % PAGEHEIGHT;
+  }
+}
+
+/*
+ * pushes a value onto the stack.
+ */
+void
+  push (signed long val)
+{
+  struct stack *s;
+  s = (struct stack *) malloc (sizeof (struct stack));
+  s->val = val;
+  s->next = head;
+  head = s;
+}
+
+/*
+ * pops a value off the stack. returns 0 in case of underflow.
+ */
+signed long
+  pop ()
+{
+  signed long v;
+  struct stack *s = head;
+  if (s)
+    {
+      v = head->val;
+      head = head->next;
+      free (s);
+      return v;
+    }
+  else
+    {
+      return 0;
+    }
+}
