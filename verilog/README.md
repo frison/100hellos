@@ -1,0 +1,6 @@
+# Verilog
+
+
+Verilog was created by Prabhu Goel, Phil Moorby and Chi-Lai Huang between late 1983 and early 1984.Chi-Lai Huang had earlier worked on a hardware description LALSD, a language developed by Professor S.Y.H. Su, for his PhD work. The rights holder for this process, at the time proprietary, was "Automated Integrated Design Systems" (later renamed to Gateway Design Automation in 1985). Gateway Design Automation was purchased by Cadence Design Systems in 1990. Cadence now has full proprietary rights to Gateway's Verilog and the Verilog-XL, the HDL-simulator that would become the de facto standard (of Verilog logic simulators) for the next decade. Originally, Verilog was only intended to describe and allow simulation; the automated synthesis of subsets of the language to physically realizable structures (gates etc.) was developed after the language had achieved widespread usage.
+
+Verilog is a portmanteau of the words "verification" and "logic". [Wikipedia](https://en.wikipedia.org/wiki/Verilog)
