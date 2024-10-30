@@ -79,6 +79,7 @@ runs:
       name: 🛠 Set up QEMU
       uses: docker/setup-qemu-action@v3
       with:
+        image: mirror.gcr.io/tonistiigi/binfmt:latest
         platforms: ${{ inputs.platforms }}
 
     -
