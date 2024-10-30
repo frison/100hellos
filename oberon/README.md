@@ -1,0 +1,3 @@
+# Oberon
+
+All hail the elven king... wait, wrong Oberon. Oberon is a programming language named after the moon of Uranus, discovered in 1787 by William Herschel. The language was developed in the late 1980s by Niklaus Wirth and Jürg Gutknecht. Oberon is a descendant of Pascal and Modula-2, and it was designed to be a simpler, more modern alternative to these languages. [Wikipedia](https://en.wikipedia.org/wiki/Oberon_(programming_language))
