@@ -1,11 +1,25 @@
 #!/usr/bin/env sh
 
-# If this file is present, this is the file that runs when you add the
-# RUN=1 option.
-#
-# Otherwise, the default behavior is to run the first file in the
-# directory that matches the pattern `hello-world.*``.
+cd /artifacts
 
-# Build it
-# Run it
+cd mono-4.2.4 && CFLAGS="$CFLAGS -O2 -flto=auto" \
+CXXFLAGS="$CXXFLAGS -O2 -flto=auto" \
+./configure \
+    --build=$CBUILD \
+    --host=$CHOST \
+    --prefix=/usr/local \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
+    --localstatedir=/var \
+    --disable-boehm \
+    --enable-ninja \
+    --disable-rpath \
+    --disable-static \
+    --enable-parallel-mark \
+    --with-mcs-docs=no \
+    --without-sigaltstack
 
+sudo apk add patch
+patch -p0 -l < /hello-world/mini_main.patch
+patch -p0 -l < /hello-world/sysmacros.patch

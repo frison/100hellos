@@ -10,20 +10,20 @@ install:
 	sudo apk add --no-cache bash gcc g++ make automake autoconf libtool pkgconfig glib-dev gettext-dev
 	tar -xjf mono-4.2.4.4.tar.bz2
 	git clone --depth=1 https://github.com/boo-lang/boo
-	cd mono-4.2.4.4 && 	CFLAGS="$CFLAGS -O2 -flto=auto -DSGEN_WITHOUT_MONO" \
-	CXXFLAGS="$CXXFLAGS -O2 -flto=auto" \
-	./configure \
-		--build=$CBUILD \
-		--host=$CHOST \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--mandir=/usr/share/man \
-		--infodir=/usr/share/info \
-		--localstatedir=/var \
-		--disable-boehm \
-		--enable-ninja \
-		--disable-rpath \
-		--disable-static \
-		--enable-parallel-mark \
-		--with-mcs-docs=no \
-		--without-sigaltstack
+	# cd mono-4.2.4 && CFLAGS="$$CFLAGS -O2 -flto=auto" \
+	# CXXFLAGS="$$CXXFLAGS -O2 -flto=auto" \
+	# ./configure \
+	# 	--build=$$CBUILD \
+	# 	--host=$$CHOST \
+	# 	--prefix=/usr \
+	# 	--sysconfdir=/etc \
+	# 	--mandir=/usr/share/man \
+	# 	--infodir=/usr/share/info \
+	# 	--localstatedir=/var \
+	# 	--disable-boehm \
+	# 	--enable-ninja \
+	# 	--disable-rpath \
+	# 	--disable-static \
+	# 	--enable-parallel-mark \
+	# 	--with-mcs-docs=no \
+	# 	--without-sigaltstack

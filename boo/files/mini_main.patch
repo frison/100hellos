@@ -1,0 +1,7 @@
+--- mono/mini/main.c
++++ mono/mini/main.c
+@@ -120,4 +120,2 @@ main (void)
+-       mono_build_date = build_date;
+-
+        return mono_main_with_options (argc, argv);
+ }
