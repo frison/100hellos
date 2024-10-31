@@ -1,0 +1,14 @@
+#!/usr/bin/env lang
+
+# Update the `lang` above if it has an interpretter.
+# We use /usr/bin/env lang shebang (shebang = #!) to use the default
+# version of the language's interpretter in your environment.
+#
+# Using explicit paths (ie /bin/bash) is not recommended because
+# it may not be the same path on all systems and if we change
+# our base image all the scripts can break.
+#
+# If the hello-world.sh file is not present, this file will be
+# made executable (with chmod +x) and ran directly.
+
+"Hello World!"
