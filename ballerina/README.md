@@ -1,0 +1,3 @@
+# Ballerina
+
+The Ballerina programming language is pirouetting into the tech world with a grand jeté of features. Designed to handle the choreography of network services, Ballerina twirls effortlessly through data and integrations, making your code en pointe. It's a pas de deux with cloud-native infrastructure, ensuring your deployments are as graceful as a prima ballerina's performance. So, if you want your applications to dance seamlessly across platforms, Ballerina will have your projects en avant. Break a leg! 🩰💃
