@@ -1,3 +1,7 @@
+## ⚠️ Archived Repository — Please Visit the New Home
+### This repository is no longer actively maintained. For the latest updates, contributions, and Docker images, please visit the new repository:
+## 👉 https://github.com/ofthemachine/100hellos
+
 # 100 Hello Worlds!
 
 <p align="center">
